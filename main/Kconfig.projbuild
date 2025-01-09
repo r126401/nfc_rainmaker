@@ -1,4 +1,4 @@
-menu "Example Configuration"
+menu "App Configuration"
 
     config EXAMPLE_BOARD_BUTTON_GPIO
         int "Boot Button GPIO"
@@ -22,5 +22,27 @@ menu "Example Configuration"
         help
             This is an output GPIO that will be connected to a relay or other driver circuit in most cases.
             If the power changes, this GPIO output level will also change.
+
+    menu "Task configuration"
+
+
+        config APP_TASK
+            int "Memory dedicated to App task"
+            default 4096
+            help
+                Memory dedicated to executed the App task
+            
+        config RESOURCE_EVENT_TASK
+            int "Memory dedicated to event task"
+            default 3072
+            help
+                Memory dedicated to executed the event task
+    
+                        
+    
+    endmenu
+
+
+
 
 endmenu

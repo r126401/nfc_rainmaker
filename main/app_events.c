@@ -7,11 +7,14 @@
 
 #include "esp_log.h"
 #include "esp_err.h"
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
+#include <freertos/queue.h>
 
 
 
 static char *TAG = "app_events.c";
-
+QueueHandle_t event_queue_app;
 
 /* Callback to handle commands received from the RainMaker cloud */
 esp_err_t write_cb(const esp_rmaker_device_t *device, const esp_rmaker_param_t *param,
@@ -131,3 +134,107 @@ void event_handler_rainmaker(void* arg, esp_event_base_t event_base,
         ESP_LOGW(TAG, "Invalid event received!");
     }
 }
+
+
+
+
+char* event_app_2mnemonic(EVENT_APP type) {
+
+    static char mnemonic[30];
+
+    switch (type) {
+
+        case EVENT_APP_GENERIC:
+            strncpy(mnemonic, "EVENT_APP_GENERIC", 30);
+        break;
+
+        default:
+            ESP_LOGW(TAG, "Evento no implementado");
+            strncpy(mnemonic, "no implementado aun", 30);
+        break;
+    }
+
+
+
+        return mnemonic;
+}
+
+
+static void send_event_app(event_app_t event) {
+
+
+	ESP_LOGW(TAG, " envio de evento app %s", event_app_2mnemonic(event.event_app));
+	if ( xQueueSend(event_queue_app, &event, 0) != pdPASS) {
+		ESP_LOGE(TAG, "no se ha podido enviar el evento");
+
+	}
+
+}
+
+static void receive_event_app(event_app_t event) {
+
+    switch (event.event_app) {
+
+        case EVENT_APP_GENERIC:
+            ESP_LOGI(TAG, "Recibido evento generico");
+        break;
+
+        default:
+            ESP_LOGW(TAG, "Evento no implementado");
+        break;
+    }
+
+
+}
+
+
+
+void event_app_task(void *arg) {
+
+	event_app_t event;
+
+
+	event_queue_app = xQueueCreate(10, sizeof(event_app_t));
+
+	for(;;) {
+		ESP_LOGI(TAG, "ESPERANDO EVENTO DE APLICACION...Memoria libre: %d", (int) esp_get_free_heap_size());
+		if (xQueueReceive(event_queue_app, &event,  portMAX_DELAY) == pdTRUE) {
+
+			receive_event_app(event);
+
+
+		} else {
+			ESP_LOGE(TAG, "NO SE HA PODIDO PROCESAR LA PETICION");
+		}
+
+	}
+	vTaskDelete(NULL);
+
+
+}
+
+void create_event_app_task() {
+
+
+
+	xTaskCreatePinnedToCore(event_app_task, "event_app_task", CONFIG_RESOURCE_EVENT_TASK, NULL, 0, NULL,0);
+	ESP_LOGW(TAG, "TAREA DE EVENTOS DE APLICACION CREADA CREADA");
+
+
+}
+
+void send_event_generic(float dat) {
+
+    event_app_t event;
+    event.event_app = EVENT_APP_GENERIC;
+    event.value = dat;
+    send_event_app(event);
+
+
+}
+
+
+
+
+
+

@@ -31,6 +31,7 @@
 
 #include "app_main.h"
 #include "app_events.h"
+#include "app_data.h"
 
 static const char *TAG = "app_main";
 extern esp_rmaker_device_t *nfc_device;
@@ -38,7 +39,7 @@ extern esp_rmaker_device_t *nfc_device;
 
 
 
-void app_main()
+void init_esp_rainmaker()
 {
     /* Initialize Application specific hardware drivers and
      * set initial state.
@@ -71,12 +72,14 @@ void app_main()
     esp_rmaker_config_t rainmaker_cfg = {
         .enable_time_sync = false,
     };
-    esp_rmaker_node_t *node = esp_rmaker_node_init(&rainmaker_cfg, "ESP RainMaker Device", "Switch");
+    esp_rmaker_node_t *node = esp_rmaker_node_init(&rainmaker_cfg, "ESP RainMaker Device", "nfc rainmaker");
     if (!node) {
         ESP_LOGE(TAG, "Could not initialise node. Aborting!!!");
         vTaskDelay(5000/portTICK_PERIOD_MS);
         abort();
     }
+
+    register_device_and_params();
 
     /* Add this switch device to the node */
     esp_rmaker_node_add_device(node, nfc_device);
@@ -119,3 +122,14 @@ void app_main()
 
 
 }
+
+void app_main(void) {
+
+    create_event_app_task();
+    
+
+    init_esp_rainmaker();
+    send_event_generic(0);
+}
+
+
