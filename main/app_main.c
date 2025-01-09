@@ -32,6 +32,7 @@
 #include "app_main.h"
 #include "app_events.h"
 #include "app_data.h"
+#include "nfc_task.h"
 
 static const char *TAG = "app_main";
 extern esp_rmaker_device_t *nfc_device;
@@ -129,7 +130,9 @@ void app_main(void) {
     
 
     init_esp_rainmaker();
-    send_event_generic(0);
+
+    app_init_rc522();
+    
 }
 
 

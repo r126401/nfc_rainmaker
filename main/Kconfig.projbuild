@@ -38,9 +38,45 @@ menu "App Configuration"
             help
                 Memory dedicated to executed the event task
     
-                        
-    
     endmenu
+
+    menu "Menu Config spi rc522"
+
+        config RC522_SPI_BUS_GPIO_MISO
+            int "RC522_SPI_BUS_GPIO_MISO"
+            default 25
+            help 
+                gpio to miso
+
+        config RC522_SPI_BUS_GPIO_MOSI
+            int "RC522_SPI_BUS_GPIO_MOSI"
+            default 23
+            help 
+                gpio to mosi
+
+        config RC522_SPI_BUS_GPIO_SCLK
+            int "RC522_SPI_BUS_GPIO_SCLK"
+            default 19
+            help 
+                gpio to sclk
+
+        config RC522_SPI_SCANNER_GPIO_SDA
+            int "RC522_SPI_SCANNER_GPIO_SDA"
+            default 22
+            help 
+                gpio to sda
+
+        config RC522_SCANNER_GPIO_RST
+            int "RC522_SCANNER_GPIO_RST"
+            default -1
+            help 
+                gpio to rst
+        
+                                                                            
+            
+
+    endmenu
+
 
 
 
