@@ -192,5 +192,5 @@ direct_dependencies:
 - espressif/rmaker_common
 - idf
 manifest_hash: 31b1a2d335851dc24747ba7d72d1b3fe3167c43f0929d82ea433dc4eb07065b8
-target: esp32
+target: esp32s3
 version: 2.0.0

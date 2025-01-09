@@ -5,5 +5,10 @@
         "board/esp32s3-builtin.cfg"
     ],
     "idf.port": "/dev/ttyACM0",
-    "idf.toolsPath": "/home/t126401/espidf/.espidftools"
+    "idf.toolsPath": "/home/t126401/espidf/.espidftools",
+    "files.associations": {
+        "esp_rmaker_standard_types.h": "c",
+        "esp_rmaker_console.h": "c"
+    },
+    "idf.flashType": "UART"
 }
