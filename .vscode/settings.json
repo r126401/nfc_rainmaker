@@ -8,7 +8,24 @@
     "idf.toolsPath": "/home/t126401/espidf/.espidftools",
     "files.associations": {
         "esp_rmaker_standard_types.h": "c",
-        "esp_rmaker_console.h": "c"
+        "esp_rmaker_console.h": "c",
+        "*.tcc": "c",
+        "format": "c",
+        "thread": "c",
+        "cstdint": "c",
+        "charconv": "c",
+        "chrono": "c",
+        "ctime": "c",
+        "future": "c",
+        "iomanip": "c",
+        "limits": "c",
+        "numeric": "c",
+        "ratio": "c",
+        "streambuf": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "*.inc": "c",
+        "cstring": "c"
     },
     "idf.flashType": "UART"
 }

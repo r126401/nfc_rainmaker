@@ -4,6 +4,8 @@
 #include "driver/rc522_spi.h"
 #include "rc522_picc.h"
 
+#include "picc/rc522_mifare.h"
+
 
 
 static rc522_spi_config_t driver_config = {
@@ -19,10 +21,12 @@ static rc522_spi_config_t driver_config = {
     .rst_io_num = CONFIG_RC522_SCANNER_GPIO_RST,
 };
 
-static rc522_driver_handle_t driver;
-static rc522_handle_t scanner;
+
 
 
 void app_init_rc522();
+esp_err_t read_data_from_card(rc522_handle_t scanner, rc522_picc_t *picc, uint8_t block_address);
+esp_err_t write_data_to_card(rc522_handle_t scanner, rc522_picc_t *picc, uint8_t block_address, uint8_t *buffer);
+esp_err_t get_auth_card(rc522_handle_t scanner, rc522_picc_t *picc, rc522_mifare_key_t *key, uint8_t block_address);
 
 

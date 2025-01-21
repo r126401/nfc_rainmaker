@@ -129,7 +129,7 @@ void app_main(void) {
     create_event_app_task();
     
 
-    init_esp_rainmaker();
+    //init_esp_rainmaker();
 
     app_init_rc522();
     
